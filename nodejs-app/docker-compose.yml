@@ -1,0 +1,30 @@
+version: "3.8" # Specify the version of docker-compose
+
+services:
+  app:
+    build:
+      context: . # Use the current directory as the build context
+      dockerfile: Dockerfile # Specify the Dockerfile to use for building the image
+    ports:
+      - "3000:3000" # Map port 3000 on the host to port 3000 in the container
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/userdb # Environment variable for MongoDB connection
+      - REDIS_URL=redis://redis:6379 # Environment variable for Redis connection
+    depends_on:
+      - mongo # Ensure mongo service is started before this service
+      - redis # Ensure redis service is started before this service
+
+  mongo:
+    image: mongo:latest # Use the latest MongoDB image
+    ports:
+      - "27017:27017" # Map port 27017 on the host to port 27017 in the container
+    volumes:
+      - mongo_data:/data/db # Persist MongoDB data in a named volume
+
+  redis:
+    image: redis:latest # Use the latest Redis image
+    ports:
+      - "6379:6379" # Map port 6379 on the host to port 6379 in the container
+
+volumes:
+  mongo_data: # Define a named volume for MongoDB data
