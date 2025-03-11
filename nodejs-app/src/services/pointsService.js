@@ -34,26 +34,33 @@ class PointsService {
   }
 
   async _updateUserPointsBalance(userId, points, session) {
-    return this.userModel.findOneAndUpdate(
-      { userId },
+    return this.userModel.findByIdAndUpdate(
+      userId,
       { $inc: { pointsBalance: points } },
       { new: true, session }
     );
   }
 
   async _addPointsTransaction(userId, transactionId, session) {
-    return this.userModel.findOneAndUpdate(
-      { userId },
+    return this.userModel.findByIdAndUpdate(
+      userId,
       { $push: { pointsTransactions: transactionId } },
       { new: true, session }
     );
   }
 
-  async expirePoints() {
-    const sixWeeksAgo = new Date(Date.now() - 6 * 7 * 24 * 60 * 60 * 1000);
+  async getPoints() {
+    let points = await this.pointsModel.find(); // query all points
+    return points;
+  }
+
+  async expirePoints(expirationTime) {
+    const expiration =
+      expirationTime || new Date(Date.now() - 6 * 7 * 24 * 60 * 60 * 1000); // default: six weeks ago
     const expiredTransactions = await this.pointsModel.find({
-      timestamp: { $lt: sixWeeksAgo },
+      timestamp: { $lt: expiration },
       pointsRemaining: { $gt: 0 },
+      archived: { $ne: true },
     });
 
     for (const transaction of expiredTransactions) {
@@ -61,15 +68,11 @@ class PointsService {
       if (user) {
         user.pointsBalance -= transaction.pointsRemaining;
         transaction.pointsRemaining = 0;
+        transaction.archived = true;
         await transaction.save();
         await user.save();
       }
     }
-
-    await this.pointsModel.deleteMany({
-      timestamp: { $lt: sixWeeksAgo },
-      pointsRemaining: 0,
-    });
   }
 }
 

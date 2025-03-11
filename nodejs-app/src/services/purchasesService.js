@@ -39,6 +39,7 @@ class PurchasesService {
         } else {
           remainingPrice -= transaction.pointsRemaining;
           transaction.pointsRemaining = 0;
+          transaction.archived = true;
         }
         await transaction.save({ session });
       }
@@ -53,7 +54,7 @@ class PurchasesService {
 
       // update the user model with the new purchase log (find by ID and Update not require another save)
       await this.userModel.findByIdAndUpdate(
-        userId,
+        { _id: userId },
         { $push: { productPurchases: purchase._id } },
         { session }
       );
@@ -70,7 +71,8 @@ class PurchasesService {
   }
 
   async getPurchases(userId) {
-    return await this.purchasesModel.find({ userId }).sort({ timestamp: -1 });
+    const query = userId ? { userId } : {};
+    return await this.purchasesModel.find(query).sort({ timestamp: -1 });
   }
 }
 

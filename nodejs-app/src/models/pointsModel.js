@@ -21,6 +21,10 @@ const pointsTransactionSchema = new mongoose.Schema({
     // expires: "6w", // This option Automatically remove points older
     // than 6 weeks using mongo mechanism but we won't use it as we prefer doing it programmatically
   },
+  archived: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const PointsTransaction = mongoose.model(

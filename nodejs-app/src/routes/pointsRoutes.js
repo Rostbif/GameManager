@@ -10,6 +10,7 @@ const setPointsRoutes = (app) => {
   const pointsController = new PointsController(pointsService);
 
   router.post("/points", pointsController.addPoints.bind(pointsController));
+  router.get("/points", pointsController.getPoints.bind(pointsController));
   router.delete(
     "/points/expire",
     pointsController.expirePoints.bind(pointsController)

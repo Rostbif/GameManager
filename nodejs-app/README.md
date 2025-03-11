@@ -18,12 +18,13 @@ TBD
 2. **Build and run the application using Docker Compose:**
 
    ```
-   docker-compose up --build
+   docker-compose up -d
    ```
 
 3. **Access the application:**
    The application will be running on `http://localhost:3000`.
-   To access the Mongo db use: docker exec -it 2a0a88555f6e mongosh (before use the docker ps command to get the mongo container id)
+   To access the Mongo db through the terminal: docker exec -it <containerid:2a0a88555f6e> mongosh (before use the docker ps command to get the mongo container id)
+   If the script doesn't work correctly you should use rs.initiate() manually
 
 ## API Endpoints
 
