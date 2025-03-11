@@ -22,6 +22,11 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+// Routes
+setUserRoutes(app);
+setPointsRoutes(app);
+setPurchasesRoutes(app);
+
 // Redis client
 // Test route to set and get a key-value pair in Redis
 app.get("/test-redis", async (req, res) => {
@@ -34,26 +39,6 @@ app.get("/test-redis", async (req, res) => {
     res.status(500).send("Redis operation error");
   }
 });
-
-// Explicitly connect the Redis client
-await redisClient.connect();
-
-// Test route to set and get a key-value pair in Redis
-app.get("/test-redis", async (req, res) => {
-  try {
-    await redisClient.set("test-key", "test-value");
-    const value = await redisClient.get("test-key");
-    res.send(`Redis test key value: ${value}`);
-  } catch (err) {
-    console.error("Redis operation error:", err);
-    res.status(500).send("Redis operation error");
-  }
-});
-
-// Routes
-setUserRoutes(app);
-setPointsRoutes(app);
-setPurchasesRoutes(app);
 
 // Create and start points expiration cron job
 const pointsExpirationCronService = new PointsExpirationCronService();

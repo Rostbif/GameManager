@@ -15,6 +15,11 @@ class UserService {
       .populate("productPurchases");
   }
 
+  async getUsers() {
+    let users = await this.userModel.find(); // query all users
+    return users;
+  }
+
   async updateUserPointsBalance(userId, points) {
     const user = await this.userModel.findById(userId);
     if (!user) {
