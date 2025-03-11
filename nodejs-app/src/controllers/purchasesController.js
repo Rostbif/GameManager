@@ -3,6 +3,7 @@ class PurchasesController {
     this.purchasesService = purchasesService;
   }
 
+  // Method to handle buying an item
   async buyItem(req, res) {
     const { userId, price } = req.body;
 
@@ -18,6 +19,7 @@ class PurchasesController {
     }
   }
 
+  // Method to get all purchases of a specific user
   async getPurchasesOfUser(req, res) {
     const { userId } = req.params;
 
@@ -31,6 +33,7 @@ class PurchasesController {
     }
   }
 
+  // Method to get all purchases
   async getPurchases(req, res) {
     try {
       const purchases = await this.purchasesService.getPurchases();

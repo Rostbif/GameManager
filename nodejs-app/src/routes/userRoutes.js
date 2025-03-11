@@ -8,7 +8,6 @@ const setUserRoutes = (app) => {
   const userService = new UserService(UserModel);
   const userController = new UserController(userService);
 
-  // TBD - learn about bind
   router.post("/users", userController.createUser.bind(userController));
   router.get("/users", userController.getUsers.bind(userController));
   router.get("/users/:id", userController.getUser.bind(userController));

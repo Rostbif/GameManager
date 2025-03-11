@@ -3,6 +3,7 @@ class UserController {
     this.userService = userService;
   }
 
+  // Method to create a new user
   async createUser(req, res) {
     try {
       const user = await this.userService.createUser(req.body);
@@ -13,6 +14,7 @@ class UserController {
     }
   }
 
+  // Method to get a user by ID
   async getUser(req, res) {
     try {
       const user = await this.userService.getUser(req.params.id);
@@ -25,6 +27,7 @@ class UserController {
     }
   }
 
+  // Method to get all users
   async getUsers(req, res) {
     try {
       const users = await this.userService.getUsers();

@@ -7,11 +7,18 @@ class PurchasesService {
     this.userModel = userModel;
   }
 
+  /**
+   * Handles the purchase of an item by a user.
+   * @param {string} userId - The ID of the user making the purchase.
+   * @param {number} price - The price of the item being purchased.
+   * @returns {Object} - The purchase record.
+   * @throws {Error} - If the user has insufficient points or any other error occurs.
+   */
   async buyItem(userId, price) {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-      // get the user and reduce the price from its balance (unless it doesn't have enough balance)
+      // Get the user and reduce the price from its balance (unless it doesn't have enough balance)
       const user = await this.userModel.findById(userId).session(session);
       if (!user || user.pointsBalance < price) {
         throw new Error("Insufficient points");
@@ -19,9 +26,8 @@ class PurchasesService {
       user.pointsBalance -= price;
       await user.save({ session });
 
-      // bring all transactions that their remaining points is greater than 0
-      // sort by date (the oldest first) TBD - verify that
-
+      // Bring all transactions that have remaining points greater than 0
+      // Sort by date (the oldest first)
       const transactions = await this.pointsModel
         .find({ userId, pointsRemaining: { $gt: 0 } })
         .sort({ timestamp: 1 })
@@ -29,7 +35,7 @@ class PurchasesService {
 
       let remainingPrice = price;
 
-      // Run over the transactions and substract the price from them till finishing reducing all the price points...
+      // Run over the transactions and subtract the price from them until finishing reducing all the price points
       for (const transaction of transactions) {
         if (remainingPrice <= 0) break;
 
@@ -52,7 +58,7 @@ class PurchasesService {
       });
       await purchase.save({ session });
 
-      // update the user model with the new purchase log (find by ID and Update not require another save)
+      // Update the user model with the new purchase log
       await this.userModel.findByIdAndUpdate(
         { _id: userId },
         { $push: { productPurchases: purchase._id } },
@@ -70,7 +76,13 @@ class PurchasesService {
     }
   }
 
+  /**
+   * Retrieves the purchase history for a user.
+   * @param {string} [userId] - The ID of the user whose purchases are to be retrieved.
+   * @returns {Array} - A list of purchase records.
+   */
   async getPurchases(userId) {
+    // Get all purchases for the given userId, or all purchases if no userId is provided
     const query = userId ? { userId } : {};
     return await this.purchasesModel.find(query).sort({ timestamp: -1 });
   }

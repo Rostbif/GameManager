@@ -31,15 +31,3 @@ const setPurchasesRoutes = (app) => {
 };
 
 export default setPurchasesRoutes;
-
-// const express = require('express');
-// const PurchasesController = require('../controllers/purchasesController');
-
-// const setPurchasesRoutes = (app) => {
-//     const purchasesController = new PurchasesController();
-
-//     app.post('/purchase', purchasesController.buyItem.bind(purchasesController));
-//     app.get('/purchases', purchasesController.getPurchases.bind(purchasesController));
-// };
-
-// module.exports = setPurchasesRoutes;

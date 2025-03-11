@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+
+// Define the product purchase schema
 const productPurchaseSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -15,6 +17,7 @@ const productPurchaseSchema = new mongoose.Schema({
   },
 });
 
+// Create the ProductPurchase model from the schema
 const ProductPurchase = mongoose.model(
   "ProductPurchase",
   productPurchaseSchema

@@ -20,18 +20,3 @@ const setPointsRoutes = (app) => {
 };
 
 export default setPointsRoutes;
-
-// const express = require('express');
-// const PointsController = require('../controllers/pointsController');
-
-// const setPointsRoutes = (app) => {
-//     const router = express.Router();
-//     const pointsController = new PointsController();
-
-//     router.post('/points', pointsController.addPoints.bind(pointsController));
-//     router.delete('/points/expire', pointsController.expirePoints.bind(pointsController));
-
-//     app.use('/api', router);
-// };
-
-// module.exports = setPointsRoutes;

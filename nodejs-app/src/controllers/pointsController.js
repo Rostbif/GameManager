@@ -3,6 +3,7 @@ class PointsController {
     this.pointsService = pointsService;
   }
 
+  // Method to add points to a user
   async addPoints(req, res) {
     const { userId, points } = req.body;
     try {
@@ -14,8 +15,8 @@ class PointsController {
     }
   }
 
+  // Method to get points of all users
   async getPoints(req, res) {
-    //const { userId, points } = req.body;
     try {
       const result = await this.pointsService.getPoints();
       res.status(200).json(result);
@@ -24,6 +25,7 @@ class PointsController {
     }
   }
 
+  // Method to expire points of all users
   async expirePoints(req, res) {
     try {
       const result = await this.pointsService.expirePoints();
