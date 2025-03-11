@@ -25,6 +25,7 @@ TBD
    The application will be running on `http://localhost:3000`.
    To access the Mongo db through the terminal: docker exec -it <containerid:2a0a88555f6e> mongosh (before use the docker ps command to get the mongo container id)
    If the script doesn't work correctly you should use rs.initiate() manually
+   also you should create a userdb database in mongo in case it doesn't exist (or should implement it in the docker-compose file)
 
 ## API Endpoints
 
