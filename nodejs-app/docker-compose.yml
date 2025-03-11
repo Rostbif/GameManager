@@ -26,7 +26,6 @@ services:
       ]
     volumes:
       - mongo_data:/data/db # Persist MongoDB data in a named volume
-      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh # Add the custom initialization script
 
   redis:
     image: redis:latest # Use the latest Redis image

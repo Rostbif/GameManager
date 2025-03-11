@@ -30,17 +30,23 @@ TBD
    run rs.initiate() manually to initiate the replicaSet
 
    // config the replicaSet to support the way you access it (mongo:27017 from the container and localhost:27017 from the host machine)
+
+   // for Docker environment
    var config = rs.conf();
    // Modify the configuration as needed
    config.members[0].host = "mongo:27017";
    // Apply the new configuration
    rs.reconfig(config, { force: true });
 
+   //
+   // for local environment
    var config = rs.conf();
    // Modify the configuration as needed
    config.members[0].host = "localhost:27017";
    // Apply the new configuration
    rs.reconfig(config, { force: true });
+
+   ** Run rs.status() to make sure the change was applied **
 
    also you should create a userdb database (Command: use userDb) in mongo in case it doesn't exist (or should implement it in the docker-compose file)
 
