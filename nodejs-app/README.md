@@ -23,9 +23,26 @@ TBD
 
 3. **Access the application:**
    The application will be running on `http://localhost:3000`.
+
+   **_To fix issues with replica set:_**
    To access the Mongo db through the terminal: docker exec -it <containerid:2a0a88555f6e> mongosh (before use the docker ps command to get the mongo container id)
-   If the script doesn't work correctly you should use rs.initiate() manually
-   also you should create a userdb database in mongo in case it doesn't exist (or should implement it in the docker-compose file)
+
+   run rs.initiate() manually to initiate the replicaSet
+
+   // config the replicaSet to support the way you access it (mongo:27017 from the container and localhost:27017 from the host machine)
+   var config = rs.conf();
+   // Modify the configuration as needed
+   config.members[0].host = "mongo:27017";
+   // Apply the new configuration
+   rs.reconfig(config, { force: true });
+
+   var config = rs.conf();
+   // Modify the configuration as needed
+   config.members[0].host = "localhost:27017";
+   // Apply the new configuration
+   rs.reconfig(config, { force: true });
+
+   also you should create a userdb database (Command: use userDb) in mongo in case it doesn't exist (or should implement it in the docker-compose file)
 
 ## API Endpoints
 

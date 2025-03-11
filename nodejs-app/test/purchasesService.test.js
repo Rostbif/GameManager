@@ -6,6 +6,8 @@ import UserModel from "../src/models/userModel";
 import ProductPurchase from "../src/models/purchasesModel";
 import { jest } from "@jest/globals";
 
+// TBD - work on this. currently doesn't work
+
 // jest.mock("mongoose", () => {
 //   const actualMongoose = jest.requireActual("mongoose");
 //   return {

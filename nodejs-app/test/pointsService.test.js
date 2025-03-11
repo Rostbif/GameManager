@@ -3,6 +3,8 @@ import PointsService from "../src/services/pointsService";
 import PointsModel from "../src/models/pointsModel";
 import UserModel from "../src/models/userModel";
 
+// TBD - work on this. currently doesn't work
+
 describe("PointsService", () => {
   let pointsService;
   let session;

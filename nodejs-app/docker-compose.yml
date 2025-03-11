@@ -22,10 +22,11 @@ services:
       [
         "bash",
         "-c",
-        "mongod --replSet rs0 --bind_ip_all && sleep 5 && mongo --eval 'rs.initiate()'",
+        'mongod --replSet rs0 --bind_ip_all && sleep 5 && mongo --eval ''rs.initiate({_id: "rs0", members: [{_id: 0, host: "localhost:27017"}]})''',
       ]
     volumes:
       - mongo_data:/data/db # Persist MongoDB data in a named volume
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh # Add the custom initialization script
 
   redis:
     image: redis:latest # Use the latest Redis image
