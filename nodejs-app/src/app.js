@@ -5,7 +5,7 @@ import setUserRoutes from "./routes/userRoutes.js";
 import setPointsRoutes from "./routes/pointsRoutes.js";
 import setPurchasesRoutes from "./routes/purchasesRoutes.js";
 import PointsExpirationCronService from "./services/pointsExpirationCronService.js";
-import redisClient from "../utils/redisClient.js";
+//import redisClient from "./utils/redisClient.js";
 
 // Load environment variables from .env file
 dotenv.config();

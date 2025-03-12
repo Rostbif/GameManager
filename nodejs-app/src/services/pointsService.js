@@ -6,6 +6,12 @@ class PointsService {
     this.userModel = userModel;
   }
 
+  /**
+   * Adds points to a user's account and creates a transaction record.
+   * @param {string} userId - The ID of the user.
+   * @param {number} points - The number of points to add.
+   * @returns {Object} - The created transaction.
+   */
   async addPoints(userId, points) {
     // using mongo session in order to do all the actions in one transaction
     // https://www.mongodb.com/docs/drivers/node/current/fundamentals/transactions/
@@ -33,6 +39,13 @@ class PointsService {
     }
   }
 
+  /**
+   * Updates the user's points balance.
+   * @param {string} userId - The ID of the user.
+   * @param {number} points - The number of points to add.
+   * @param {Object} session - The MongoDB session.
+   * @returns {Object} - The updated user document.
+   */
   async _updateUserPointsBalance(userId, points, session) {
     return this.userModel.findByIdAndUpdate(
       userId,
@@ -41,6 +54,13 @@ class PointsService {
     );
   }
 
+  /**
+   * Adds a points transaction to the user's transaction history.
+   * @param {string} userId - The ID of the user.
+   * @param {string} transactionId - The ID of the transaction.
+   * @param {Object} session - The MongoDB session.
+   * @returns {Object} - The updated user document.
+   */
   async _addPointsTransaction(userId, transactionId, session) {
     return this.userModel.findByIdAndUpdate(
       userId,
@@ -49,11 +69,19 @@ class PointsService {
     );
   }
 
+  /**
+   * Retrieves all points transactions.
+   * @returns {Array} - An array of points transactions.
+   */
   async getPoints() {
     let points = await this.pointsModel.find(); // query all points
     return points;
   }
 
+  /**
+   * Expires points that are older than the specified expiration time.
+   * @param {Date} expirationTime - The expiration time. Defaults to six weeks ago.
+   */
   async expirePoints(expirationTime) {
     const expiration =
       expirationTime || new Date(Date.now() - 6 * 7 * 24 * 60 * 60 * 1000); // default: six weeks ago

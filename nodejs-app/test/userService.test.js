@@ -3,6 +3,7 @@ import User from "../src/models/userModel";
 import PointsTransaction from "../src/models/pointsModel";
 import ProductPurchase from "../src/models/purchasesModel";
 import UserService from "../src/services/userService";
+import redisClient from "../src/utils/redisClient";
 
 describe("UserService", () => {
   let userService;
@@ -14,10 +15,12 @@ describe("UserService", () => {
 
   afterAll(async () => {
     await mongoose.disconnect();
+    await redisClient.quit(); // Close the Redis connection
   });
 
   afterEach(async () => {
     await User.deleteMany({});
+    await redisClient.flushAll(); // Clear the Redis cache
   });
 
   it("should create a new user", async () => {

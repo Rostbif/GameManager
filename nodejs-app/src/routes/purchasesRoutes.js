@@ -15,7 +15,7 @@ const setPurchasesRoutes = (app) => {
   const purchasesController = new PurchasesController(purchasesService);
 
   router.post(
-    "/purchase",
+    "/purchases",
     purchasesController.buyItem.bind(purchasesController)
   );
   router.get(
